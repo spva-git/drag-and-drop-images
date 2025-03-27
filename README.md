@@ -34,3 +34,34 @@ const addNodeToCanvas = (image, position) => {
   };
   setNodes((nds) => [...nds, newNode]);
 };
+
+### 2. **Drag and Drop from Image Bar**
+Users can drag and drop images from an image bar onto the canvas. Each image in the bar can be dragged to the desired location on the canvas.
+
+```js
+// Handle the drag start event
+const handleDragStart = (event, image) => {
+  event.dataTransfer.setData('image', JSON.stringify(image));
+};
+
+// Handle drop event on canvas
+const handleDrop = (event) => {
+  const image = JSON.parse(event.dataTransfer.getData('image'));
+  const position = { x: event.clientX, y: event.clientY };
+  addNodeToCanvas(image, position);
+};
+
+const imageBar = [
+  { id: 'image1', src: '/images/image1.jpg' },
+  { id: 'image2', src: '/images/image2.jpg' },
+  { id: 'image3', src: '/images/image3.jpg' },
+];
+
+return (
+  <div>
+    <div className="image-bar">
+      {imageBar.map((image) => (
+        <img
+          key={image.id}
+          src={image.src}
+          alt={image.id}
