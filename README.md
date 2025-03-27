@@ -34,3 +34,67 @@ const addNodeToCanvas = (image, position) => {
   };
   setNodes((nds) => [...nds, newNode]);
 };
+
+### 2. **Drag and Drop from Image Bar**
+You can drag and drop images from an image bar onto the canvas. Each image in the bar can be dragged to the desired location on the canvas.
+
+```js
+// Handle the drag start event
+const handleDragStart = (event, image) => {
+  event.dataTransfer.setData('image', JSON.stringify(image));
+};
+
+// Handle drop event on canvas
+const handleDrop = (event) => {
+  const image = JSON.parse(event.dataTransfer.getData('image'));
+  const position = { x: event.clientX, y: event.clientY };
+  addNodeToCanvas(image, position);
+};
+
+const imageBar = [
+  { id: 'image1', src: '/images/image1.jpg' },
+  { id: 'image2', src: '/images/image2.jpg' },
+  { id: 'image3', src: '/images/image3.jpg' },
+];
+
+return (
+  <div>
+    <div className="image-bar">
+      {imageBar.map((image) => (
+        <img
+          key={image.id}
+          src={image.src}
+          alt={image.id}
+          draggable
+          onDragStart={(event) => handleDragStart(event, image)}
+        />
+      ))}
+    </div>
+    <div
+      className="canvas"
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()} // To allow drop
+    >
+      {nodes.map((node) => (
+        <Node key={node.id} data={node.data} />
+      ))}
+    </div>
+  </div>
+);
+
+### 3. **Resizable Nodes**
+Nodes added to the canvas can be resized. You can implement the resizing functionality using libraries like `react-resizable` or custom handlers.
+
+```js
+import { ResizableBox } from 'react-resizable';
+
+// Example of resizable image node
+const ResizableImageNode = ({ image, onResize }) => (
+  <ResizableBox width={100} height={100} onResizeStop={onResize}>
+    <img src={image.src} alt={image.id} width="100%" height="100%" />
+  </ResizableBox>
+);
+
+
+This snippet shows how to integrate resizable nodes into your canvas. It utilizes the `react-resizable` package to make nodes resizable using the `ResizableBox` component. You can replace the image and other properties as needed.
+#
