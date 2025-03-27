@@ -65,3 +65,55 @@ return (
           key={image.id}
           src={image.src}
           alt={image.id}
+          draggable
+          onDragStart={(event) => handleDragStart(event, image)}
+        />
+      ))}
+    </div>
+    <div
+      className="canvas"
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()} // To allow drop
+    >
+      {nodes.map((node) => (
+        <Node key={node.id} data={node.data} />
+      ))}
+    </div>
+  </div>
+);
+```
+
+### 3. **Resizable Nodes**
+Nodes added to the canvas can be resized. You can implement the resizing functionality using libraries like `react-resizable` or custom handlers.
+
+```js
+import { ResizableBox } from 'react-resizable';
+
+// Example of resizable image node
+const ResizableImageNode = ({ image, onResize }) => (
+  <ResizableBox width={100} height={100} onResizeStop={onResize}>
+    <img src={image.src} alt={image.id} width="100%" height="100%" />
+  </ResizableBox>
+);
+```
+
+## Installation
+
+### Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/drag-and-drop-images.git
+```
+### Install dependencies:
+
+```bash
+npm install
+
+```
+###Run the project:
+
+```bash
+npm start
+
+```
+This will start the development server, and you can view the app in your browser at http://localhost:3000.
